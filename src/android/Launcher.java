@@ -448,6 +448,7 @@ public class Launcher extends CordovaPlugin {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 		if (requestCode == LAUNCH_REQUEST) {
+			json.put("ResultCode", resultCode);
 			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
 				JSONObject json = new JSONObject();
 				try {
@@ -472,9 +473,21 @@ public class Launcher extends CordovaPlugin {
 							json.put("extras", jsonExtras);
 						} catch(JSONException ignored) {}
 					}
+					else
+					{
+						try {
+							json.put("extranull", true);
+						} catch(JSONException ignored) {}
+					}
 
 					try {
 						json.put("data", intent.getDataString());
+					} catch(JSONException ignored) {}
+				}
+				else
+				{	
+					try{
+						json.put("intentNULL", true);
 					} catch(JSONException ignored) {}
 				}
 				callback.success(json);
