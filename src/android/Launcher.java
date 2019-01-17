@@ -451,7 +451,7 @@ public class Launcher extends CordovaPlugin {
 			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
 				JSONObject json = new JSONObject();
 				try {
-					json.put("isActivityDone", true);
+					json.put("activityDone", true);
 					json.put("tryLogging", "logging...");
 				} catch(JSONException ignored) {}
 				if (intent != null) {
