@@ -452,9 +452,10 @@ public class Launcher extends CordovaPlugin {
 				JSONObject json = new JSONObject();
 				try {
 					json.put("isActivityDone", true);
-					Log.d(TAG, "Activity Done!");
+					json.put("tryLogging", "logging...");
 				} catch(JSONException ignored) {}
 				if (intent != null) {
+					json.put("intentExists", true);
 					Bundle extras = intent.getExtras();
 					if (extras != null) {
 						JSONObject jsonExtras = new JSONObject();
