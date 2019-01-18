@@ -64,8 +64,8 @@ public class Launcher extends CordovaPlugin {
 @Override
 public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException 
 {
-    if (action.equals("SERVICE NAME")) 
-    {
+    //if (action.equals("SERVICE NAME")) 
+    //{
         String param = "";
         try
         {
@@ -85,9 +85,9 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 
         cordova.startActivityForResult (this, intent, LAUNCH_REQUEST);
         return true;
-    }
+    //}
 
-    return false;
+    //return false;
 }
 
 	private boolean canLaunch(JSONArray args) throws JSONException {
