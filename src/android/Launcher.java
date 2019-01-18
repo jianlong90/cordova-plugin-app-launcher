@@ -542,7 +542,7 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
         }
         else
         {
-            PluginResult result = new PluginResult(PluginResult.Status.ERROR, "no params returned successfully" );
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR, resultCode );
             result.setKeepCallback(true);
             callback.sendPluginResult(result);
         }
