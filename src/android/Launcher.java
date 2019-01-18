@@ -532,9 +532,9 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 	}*/
 	public void onActivityResult(int requestCode, int resultCode, Intent data) 
 {
-	    PluginResult result = new PluginResult(PluginResult.Status.OK,requestCode);
-            result.setKeepCallback(true);
-            callback.sendPluginResult(result);
+	    PluginResult result2 = new PluginResult(PluginResult.Status.OK,requestCode);
+            result2.setKeepCallback(true);
+            callback.sendPluginResult(result2);
     if( requestCode == LAUNCH_REQUEST )
     {
         if( resultCode == Activity.RESULT_OK )
