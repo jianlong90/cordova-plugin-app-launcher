@@ -48,6 +48,7 @@ public class Launcher extends CordovaPlugin {
 		}
 	}
 
+	/*
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		callback = callbackContext;
@@ -57,7 +58,37 @@ public class Launcher extends CordovaPlugin {
 			return launch(args);
 		}
 		return false;
-	}
+	}*/
+
+
+@Override
+public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException 
+{
+    if (action.equals("SERVICE NAME")) 
+    {
+        String param = "";
+        try
+        {
+            param = args.getString(0);
+        }
+        catch( Exception e )
+        {
+        }
+
+        callback = callbackContext;
+
+        cordova.setActivityResultCallback (this);
+
+        Intent intent = new Intent();
+        intent.setClassName("com.surbana.app2app","com.surbana.app2app.MainActivity");
+        //intent.putExtra("my_param", param);
+
+        cordova.startActivityForResult (this, intent, LAUNCH_REQUEST);
+        return true;
+    }
+
+    return false;
+}
 
 	private boolean canLaunch(JSONArray args) throws JSONException {
 		final JSONObject options = args.getJSONObject(0);
@@ -443,7 +474,7 @@ public class Launcher extends CordovaPlugin {
 			}
 		});
 	}
-
+/*
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		//super.onActivityResult(requestCode, resultCode, intent);
@@ -498,7 +529,25 @@ public class Launcher extends CordovaPlugin {
 				callback.error("Activity failed (" + resultCode + ").");
 			}
 		}
-	}
+	}*/
+	public void onActivityResult(int requestCode, int resultCode, Intent data) 
+{
+    if( requestCode == LAUNCH_REQUEST )
+    {
+        if( resultCode == Activity.RESULT_OK )
+        {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, data.getStringExtra("message"));
+            result.setKeepCallback(true);
+            callback.sendPluginResult(result);
+        }
+        else
+        {
+            PluginResult result = new PluginResult(PluginResult.Status.ERROR, "no params returned successfully" );
+            result.setKeepCallback(true);
+            callback.sendPluginResult(result);
+        }
+    }
+}
 
 	public void callbackLaunched() {
 		try {
