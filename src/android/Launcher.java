@@ -48,7 +48,7 @@ public class Launcher extends CordovaPlugin {
 		}
 	}
 
-	/*
+	
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		callback = callbackContext;
@@ -58,9 +58,9 @@ public class Launcher extends CordovaPlugin {
 			return launch(args);
 		}
 		return false;
-	}*/
+	}
 
-
+/*
 @Override
 public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException 
 {
@@ -88,7 +88,7 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
     //}
 
     //return false;
-}
+}*/
 
 	private boolean canLaunch(JSONArray args) throws JSONException {
 		final JSONObject options = args.getJSONObject(0);
@@ -474,10 +474,10 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 			}
 		});
 	}
-/*
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		//super.onActivityResult(requestCode, resultCode, intent);
+		super.onActivityResult(requestCode, resultCode, intent);
 		if (requestCode == LAUNCH_REQUEST) {
 			JSONObject json = new JSONObject();
 			try {
@@ -529,7 +529,7 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 				callback.error("Activity failed (" + resultCode + ").");
 			}
 		}
-	}*/
+	}/*
 	public void onActivityResult(int requestCode, int resultCode, Intent data) 
 {
 	    PluginResult result2 = new PluginResult(PluginResult.Status.OK,requestCode);
@@ -550,7 +550,7 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
             callback.sendPluginResult(result);
         }
     }
-}
+}*/
 
 	public void callbackLaunched() {
 		try {
