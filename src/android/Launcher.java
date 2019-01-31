@@ -48,7 +48,6 @@ public class Launcher extends CordovaPlugin {
 		}
 	}
 
-	
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		callback = callbackContext;
@@ -59,36 +58,6 @@ public class Launcher extends CordovaPlugin {
 		}
 		return false;
 	}
-
-/*
-@Override
-public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException 
-{
-    //if (action.equals("SERVICE NAME")) 
-    //{
-        String param = "";
-        try
-        {
-            param = args.getString(0);
-        }
-        catch( Exception e )
-        {
-        }
-
-        callback = callbackContext;
-
-        cordova.setActivityResultCallback (this);
-
-        Intent intent = new Intent();
-        intent.setClassName("com.surbana.app2app","com.surbana.app2app.MainActivity");
-        //intent.putExtra("my_param", param);
-
-        cordova.startActivityForResult (this, intent, LAUNCH_REQUEST);
-        return true;
-    //}
-
-    //return false;
-}*/
 
 	private boolean canLaunch(JSONArray args) throws JSONException {
 		final JSONObject options = args.getJSONObject(0);
@@ -415,9 +384,9 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 				final PackageManager pm = plugin.webView.getContext().getPackageManager();
 				final Intent launchIntent = pm.getLaunchIntentForPackage(packageName);
 				boolean appNotFound = launchIntent == null;
-
 				if (!appNotFound) {
 					try {
+						mycordova.setActivityResultCallback(plugin);
 						launchIntent.putExtras(extras);
 						mycordova.startActivityForResult(plugin, launchIntent, LAUNCH_REQUEST);
 						((Launcher) plugin).callbackLaunched();
@@ -479,21 +448,12 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 		if (requestCode == LAUNCH_REQUEST) {
-			JSONObject json = new JSONObject();
-			try {
-			json.put("ResultCode", resultCode);
-				} catch(JSONException ignored) {}
 			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
-				
+				JSONObject json = new JSONObject();
 				try {
-					json.put("activityDone", true);
-					json.put("tryLogging", "logging...");
+					json.put("isActivityDone", true);
 				} catch(JSONException ignored) {}
 				if (intent != null) {
-					try {
-						json.put("intentExists", true);
-					} catch(JSONException ignored) {}
-					
 					Bundle extras = intent.getExtras();
 					if (extras != null) {
 						JSONObject jsonExtras = new JSONObject();
@@ -507,21 +467,9 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 							json.put("extras", jsonExtras);
 						} catch(JSONException ignored) {}
 					}
-					else
-					{
-						try {
-							json.put("extranull", true);
-						} catch(JSONException ignored) {}
-					}
 
 					try {
 						json.put("data", intent.getDataString());
-					} catch(JSONException ignored) {}
-				}
-				else
-				{	
-					try{
-						json.put("intentNULL", true);
 					} catch(JSONException ignored) {}
 				}
 				callback.success(json);
@@ -529,28 +477,7 @@ public boolean execute(String action, JSONArray args, CallbackContext callbackCo
 				callback.error("Activity failed (" + resultCode + ").");
 			}
 		}
-	}/*
-	public void onActivityResult(int requestCode, int resultCode, Intent data) 
-{
-	    PluginResult result2 = new PluginResult(PluginResult.Status.OK,requestCode);
-            result2.setKeepCallback(true);
-            callback.sendPluginResult(result2);
-    if( requestCode == LAUNCH_REQUEST )
-    {
-        if( resultCode == Activity.RESULT_OK )
-        {
-            PluginResult result = new PluginResult(PluginResult.Status.OK, data.getStringExtra("message"));
-            result.setKeepCallback(true);
-            callback.sendPluginResult(result);
-        }
-        else
-        {
-            PluginResult result = new PluginResult(PluginResult.Status.ERROR, resultCode );
-            result.setKeepCallback(true);
-            callback.sendPluginResult(result);
-        }
-    }
-}*/
+	}
 
 	public void callbackLaunched() {
 		try {
