@@ -480,9 +480,8 @@ public class Launcher extends CordovaPlugin {
 		}
 	}
 
-	public void callbackLaunched() {
+	public void callbackLaunched(JSONObject json) {
 		try {
-			JSONObject json = new JSONObject();
 			json.put("isLaunched", true);
 			PluginResult result = new PluginResult(PluginResult.Status.OK, json);
 			result.setKeepCallback(true);
