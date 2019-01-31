@@ -449,13 +449,10 @@ public class Launcher extends CordovaPlugin {
 		super.onActivityResult(requestCode, resultCode, intent);
 		if (requestCode == LAUNCH_REQUEST) {
 			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
+				callbackLaunched();
 				JSONObject json = new JSONObject();
 				try {
 					json.put("isActivityDone", true);
-					
-					PluginResult result = new PluginResult(PluginResult.Status.OK, data.getStringExtra("message"));
-					result.setKeepCallback(true);
-					callback.sendPluginResult(result);
 				} catch(JSONException ignored) {}
 				if (intent != null) {
 					Bundle extras = intent.getExtras();
