@@ -364,7 +364,7 @@ public class Launcher extends CordovaPlugin {
 
 				try {
 					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					((Launcher) plugin).callbackLaunched();
+					//((Launcher) plugin).callbackLaunched();
 				} catch(ActivityNotFoundException e) {
 					Log.e(TAG, "Error: No applications installed that can handle uri " + uri);
 					e.printStackTrace();
@@ -389,7 +389,7 @@ public class Launcher extends CordovaPlugin {
 						mycordova.setActivityResultCallback(plugin);
 						launchIntent.putExtras(extras);
 						mycordova.startActivityForResult(plugin, launchIntent, LAUNCH_REQUEST);
-						((Launcher) plugin).callbackLaunched();
+						//((Launcher) plugin).callbackLaunched();
 					} catch (ActivityNotFoundException e) {
 						Log.e(TAG, "Error: Activity for package" + packageName + " was not found.");
 						e.printStackTrace();
@@ -415,7 +415,7 @@ public class Launcher extends CordovaPlugin {
 				try {
 					intent.putExtras(extras);
 					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					((Launcher) plugin).callbackLaunched();
+					//((Launcher) plugin).callbackLaunched();
 				} catch (ActivityNotFoundException e) {
 					Log.e(TAG, "Error: Activity for " + uri + " was not found.");
 					e.printStackTrace();
@@ -434,7 +434,7 @@ public class Launcher extends CordovaPlugin {
 				try {
 					intent.putExtras(extras);
 					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					((Launcher) plugin).callbackLaunched();
+					//((Launcher) plugin).callbackLaunched();
 				} catch (ActivityNotFoundException e) {
 					Log.e(TAG, "Error: Activity for " + actionName + " was not found.");
 					e.printStackTrace();
