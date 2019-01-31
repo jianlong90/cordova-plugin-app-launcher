@@ -450,7 +450,9 @@ public class Launcher extends CordovaPlugin {
 		if (requestCode == LAUNCH_REQUEST) {
 			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
 				JSONObject json = new JSONObject();
-				callbackLaunched(json);
+				PluginResult result = new PluginResult(PluginResult.Status.OK, json);
+				result.setKeepCallback(true);
+				callback.sendPluginResult(result);
 				try {
 					json.put("isActivityDone", true);
 				} catch(JSONException ignored) {}
@@ -487,7 +489,7 @@ public class Launcher extends CordovaPlugin {
 			result.setKeepCallback(true);
 			callback.sendPluginResult(result);
 		} catch (JSONException e) {
-			PluginResult result = new PluginResult(PluginResult.Status.OK, "{'isLaunched':true}");
+			PluginResult result = new PluginResult(PluginResult.Status.OK, "{'JSONException':true}");
 			result.setKeepCallback(true);
 			callback.sendPluginResult(result);
 		}
