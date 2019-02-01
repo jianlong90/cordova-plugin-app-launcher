@@ -450,12 +450,8 @@ public class Launcher extends CordovaPlugin {
 		if (requestCode == LAUNCH_REQUEST) {
 			if (resultCode == Activity.RESULT_OK) {
 				JSONObject json = new JSONObject();
-				PluginResult result = new PluginResult(PluginResult.Status.OK, json);
-				result.setKeepCallback(true);
+				this.callbackLaunched(json);
 				
-				try {
-					json.put("isActivityDone", true);
-				} catch(JSONException ignored) {}
 				if (intent != null) {
 					Bundle extras = intent.getExtras();
 					if (extras != null) {
@@ -475,6 +471,7 @@ public class Launcher extends CordovaPlugin {
 						json.put("data", intent.getDataString());
 					} catch(JSONException ignored) {}
 				}
+				
 				callback.sendPluginResult(result);
 			} else {
 				callback.error("Activity failed (" + resultCode + ").");
