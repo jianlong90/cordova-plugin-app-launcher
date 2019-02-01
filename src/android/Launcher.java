@@ -446,11 +446,14 @@ public class Launcher extends CordovaPlugin {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		final CordovaInterface mycordova = cordova;
+		final CordovaPlugin plugin = this;
+		
 		super.onActivityResult(requestCode, resultCode, intent);
 		if (requestCode == LAUNCH_REQUEST) {
 			if (resultCode == Activity.RESULT_OK) {
 				JSONObject json = new JSONObject();
-				this.callbackLaunched(json);
+				((Launcher) plugin).callbackLaunched(json);
 				
 				if (intent != null) {
 					Bundle extras = intent.getExtras();
