@@ -364,7 +364,7 @@ public class Launcher extends CordovaPlugin {
 
 				try {
 					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					//((Launcher) plugin).callbackLaunched();
+					((Launcher) plugin).callbackLaunched();
 				} catch(ActivityNotFoundException e) {
 					Log.e(TAG, "Error: No applications installed that can handle uri " + uri);
 					e.printStackTrace();
@@ -384,12 +384,12 @@ public class Launcher extends CordovaPlugin {
 				final PackageManager pm = plugin.webView.getContext().getPackageManager();
 				final Intent launchIntent = pm.getLaunchIntentForPackage(packageName);
 				boolean appNotFound = launchIntent == null;
+
 				if (!appNotFound) {
 					try {
-						mycordova.setActivityResultCallback(plugin);
 						launchIntent.putExtras(extras);
 						mycordova.startActivityForResult(plugin, launchIntent, LAUNCH_REQUEST);
-						//((Launcher) plugin).callbackLaunched();
+						((Launcher) plugin).callbackLaunched();
 					} catch (ActivityNotFoundException e) {
 						Log.e(TAG, "Error: Activity for package" + packageName + " was not found.");
 						e.printStackTrace();
@@ -415,7 +415,7 @@ public class Launcher extends CordovaPlugin {
 				try {
 					intent.putExtras(extras);
 					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					//((Launcher) plugin).callbackLaunched();
+					((Launcher) plugin).callbackLaunched();
 				} catch (ActivityNotFoundException e) {
 					Log.e(TAG, "Error: Activity for " + uri + " was not found.");
 					e.printStackTrace();
@@ -434,7 +434,7 @@ public class Launcher extends CordovaPlugin {
 				try {
 					intent.putExtras(extras);
 					mycordova.startActivityForResult(plugin, intent, LAUNCH_REQUEST);
-					//((Launcher) plugin).callbackLaunched();
+					((Launcher) plugin).callbackLaunched();
 				} catch (ActivityNotFoundException e) {
 					Log.e(TAG, "Error: Activity for " + actionName + " was not found.");
 					e.printStackTrace();
@@ -446,15 +446,13 @@ public class Launcher extends CordovaPlugin {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		final CordovaInterface mycordova = cordova;
-		final CordovaPlugin plugin = this;
-		
 		super.onActivityResult(requestCode, resultCode, intent);
 		if (requestCode == LAUNCH_REQUEST) {
-			if (resultCode == Activity.RESULT_OK) {
+			if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) {
 				JSONObject json = new JSONObject();
-				((Launcher) plugin).callbackLaunched(json);
-				
+				try {
+					json.put("isActivityDone", true);
+				} catch(JSONException ignored) {}
 				if (intent != null) {
 					Bundle extras = intent.getExtras();
 					if (extras != null) {
@@ -474,22 +472,22 @@ public class Launcher extends CordovaPlugin {
 						json.put("data", intent.getDataString());
 					} catch(JSONException ignored) {}
 				}
-				
-				callback.sendPluginResult(result);
+				callback.success(json);
 			} else {
 				callback.error("Activity failed (" + resultCode + ").");
 			}
 		}
 	}
 
-	public void callbackLaunched(JSONObject json) {
+	public void callbackLaunched() {
 		try {
+			JSONObject json = new JSONObject();
 			json.put("isLaunched", true);
 			PluginResult result = new PluginResult(PluginResult.Status.OK, json);
 			result.setKeepCallback(true);
 			callback.sendPluginResult(result);
 		} catch (JSONException e) {
-			PluginResult result = new PluginResult(PluginResult.Status.OK, "{'JSONException':true}");
+			PluginResult result = new PluginResult(PluginResult.Status.OK, "{'isLaunched':true}");
 			result.setKeepCallback(true);
 			callback.sendPluginResult(result);
 		}
